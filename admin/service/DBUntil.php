@@ -15,7 +15,7 @@ function getCategory() {
         return "error";
     }
 
-    $query = "SELECT name, note FROM category order by name";
+    $query = "SELECT id, name, note, is_deleted FROM category order by name";
     $result = $conn->query($query);
 
     while ($row = $result->fetch_assoc()) {

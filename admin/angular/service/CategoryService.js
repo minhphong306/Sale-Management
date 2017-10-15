@@ -1,7 +1,7 @@
 app.factory('categoryService', function ($http, $q, $log) {
     var factory = {};
 
-    factory.get_categories = function (data) {
+    factory.categoryAction = function (data) {
         return  $http({
             url: "service/category.php",
             method: "POST",
@@ -11,6 +11,6 @@ app.factory('categoryService', function ($http, $q, $log) {
             return response;
         });
     };
-
+   
     return factory;
 });

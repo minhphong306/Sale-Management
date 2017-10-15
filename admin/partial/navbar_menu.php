@@ -53,16 +53,17 @@
                         <li>
                             <a href="product.php">Sản phẩm</a>
                         </li>
-                        <li>
-                            <a href="saleoff.php">Khuyến mại</a>
-                        </li>
+
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
+                    <a href="saleoff.php">Khuyến mại</a>
+                </li>
+                <li>
                     <a href="customer.php"><i class="fa fa-table fa-fw"></i> Khách hàng</a>
                 </li> 
-                 <li>
+                <li>
                     <a href="staff.php"><i class="fa fa-table fa-fw"></i> Nhân viên</a>
                 </li>
             </ul>

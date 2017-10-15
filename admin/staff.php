@@ -30,6 +30,23 @@
                         <!-- /.col-lg-12 -->
                     </div>
                     <!-- /.row -->
+                    <div class="row">
+                        <button onclick="getData()">Lay dl</button>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyData">
+
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
                 <!-- /.container-fluid -->
             </div>
@@ -37,5 +54,40 @@
 
         </div>
         <!-- /#wrapper -->
+        <script>
+            function getData() {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // lấy dữ liệu về, parse sang obj
+                        var arr = JSON.parse(this.responseText);
+
+                        // tạo 1 biến html là nội dung body
+                        var HTML = '';
+
+
+                        // Chạy vòng lặp trong đối tượng, cộng dồn vào HTML
+                        for (var i = 0; i < arr.length; i++) {
+                            HTML += "<tr>";
+                            HTML += "<td>";
+                            HTML += arr[i].name;
+                            HTML += "</td>";
+
+                            HTML += "<td>";
+                            HTML += arr[i].age;
+                            HTML += "</td>";
+                            HTML += "</tr>";
+                        }
+
+
+                        // getElemtbyID, gán vào table body
+                        document.getElementById("bodyData").innerHTML = HTML;
+                    }
+                };
+
+                request.open("GET", "tmp_echo.php", true);
+                request.send();
+            }
+        </script>
     </body>
 </html>
