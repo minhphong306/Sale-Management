@@ -8,27 +8,27 @@ $result = [];
 if ($mode != '') {
     $result = [];
     switch ($mode) {
-        case 'get_category':
-            $data = getCategory();
+        case 'get_product':
+            $data = getProduct();
             $result['data'] = $data;
             $result['status'] = 'success';
             break;
-        case 'add_category':
+        case 'add_product':
             $name = $_REQUEST['name'];
             $note = $_REQUEST['note'];
-            addCategory($name, $note);
+            addProduct($name, $note);
             break;
 
-        case 'edit_category':
+        case 'edit_product':
             $id = $_REQUEST['id'];
             $name = $_REQUEST['name'];
             $note = $_REQUEST['note'];
-            editCategory($id, $name, $note);
+            editProduct($id, $name, $note);
             break;
 
-        case 'remove_category':
+        case 'remove_product':
             $id = $_REQUEST['id'];
-            removeCategory($id);
+            removeProduct($id);
             break;
         default:
             $result['status'] = 'not_found';

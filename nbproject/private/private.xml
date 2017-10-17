@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/angular/controller/CategoryController.js</file>
+            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/product.php</file>
             <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/service/DBUntil.php</file>
-            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/category.php</file>
-            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/service/category.php</file>
+            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/angular/controller/ProductController.js</file>
+            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/service/product.php</file>
+            <file>file:/E:/XAPP/htdocs/Sale_Manage/admin/tmp_echo.php</file>
         </group>
     </open-files>
 </project-private>

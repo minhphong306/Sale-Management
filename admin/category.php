@@ -10,6 +10,8 @@
         <?php
         include './partial/header.php';
         ?>
+        <link href="template/pnotify/pnotify.custom.min.css" rel="stylesheet" type="text/css"/>
+        <script src="template/pnotify/pnotify.custom.min.js" type="text/javascript"></script>
         <!--Angular-->
         <script src="angular/lib/angular.min.js"></script>
         <script src="angular/module/app.js" type="text/javascript"></script>
@@ -17,6 +19,8 @@
         <link href="template/ng-table/ng-table.min.css" rel="stylesheet" type="text/css">
         <script src="angular/service/CategoryService.js" type="text/javascript"></script>
         <script src="angular/controller/CategoryController.js" type="text/javascript"></script>
+        
+        
     </head>
     <body ng-controller="categoryCtrl">
         <div id="wrapper">
@@ -53,7 +57,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="item in data">
+                                <tr ng-repeat="item in data" ng-if="item.is_deleted != 1">
                                     <td>{{$index + 1}}</td>
                                     <td>DM00{{item.id}}</td>
                                     <td>{{item.name}}</td>
@@ -129,7 +133,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Sửa danh mục</h4>
+                        <h4 class="modal-title">Sửa danh mục {{current_edit_model.name}}</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
@@ -148,7 +152,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="edit_subject()" >Lưu</button>
+                        <button type="button" class="btn btn-success" ng-click="editCategory()" >Lưu</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
                     </div>
                 </div>
@@ -170,7 +174,7 @@
                         <span>Bạn có muốn xóa danh mục </span><h4> {{current_remove_model.name}}</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remove_subject()">Xóa</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeCategory()">Xóa</button>
                     </div>
                 </div>
 
