@@ -1,14 +1,57 @@
 <?php
-
-
 require './service/DBUntil.php';
+require './service/FileUtil.php';
 
-echo var_dump(getProduct());
-
+//echo var_dump(getProductGallery());
+//$directory =  $_SERVER['DOCUMENT_ROOT'] . "/Sale_Manage/images/";   
+//
+//$images = glob($directory . "*.jpg");
+//
+//foreach($images as $image)
+//{
+//  echo $image;
+//}
+//if (is_dir($directory)) {
+//    if ($dh = opendir($directory)) {
+//        $images = array();
+//
+//        while (($file = readdir($dh)) !== false) {
+//            if (!is_dir($directory.$file)) {
+//                $images[] = $file;
+//            }
+//        }
+//
+//        closedir($dh);
+//
+//        print_r($images);
+//    }
+//}
+//$arr = scandir();
+//$test = chdir($_SERVER['DOCUMENT_ROOT']);
+//echo $test;
+//$path = get_include_path(); // get the current path
+//$oldcwd = getcwd(); // get the current path
+//
+//// change to outside of the document root
+//chdir($_SERVER['DOCUMENT_ROOT'] . "/Sale_Manage"); 
+//$newcwd = getcwd(); // get the new working directory
+//echo $newcwd;
+//
+//
+//echo var_dump($arr);
+//$name = "Do Minh Phong";
+//$phone = "0962275964";
+//$email = "phong@gmail.com";
+//$address = "HN";
+//$facebook = "dominhphong.18";
+//$note = "Khach quen";
+//$id = "1";
+//
+//echo var_dump(addCustomer($name, $phone, $email, $address, $facebook, $note));
+//echo var_dump(getProduct());
 //$name = "haha";
 //$note = "hihi";
 //echo addCategory($name, $note);
-
 //$arr = [];
 //
 //$nv1 =  ["name" => "Phong",
@@ -30,3 +73,17 @@ echo var_dump(getProduct());
 //$arr[] = $nv3;
 //
 //echo json_encode($arr);
+?>
+
+
+<!DOCTYPE html>
+<html>
+    <body>
+        <form action="service/upload.php" method="post" enctype="multipart/form-data">
+            Select image to upload:
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload Image" name="submit">
+        </form>
+
+    </body>
+</html>

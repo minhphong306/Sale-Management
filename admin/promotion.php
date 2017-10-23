@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Danh mục - Quản lý bán hàng</title>
+        <title>Khuyến mại - Quản lý bán hàng</title>
         <?php
         include './partial/header.php';
         ?>
@@ -17,12 +17,12 @@
         <script src="angular/module/app.js" type="text/javascript"></script>
         <script src="template/ng-table/ng-table.min.js"></script>
         <link href="template/ng-table/ng-table.min.css" rel="stylesheet" type="text/css">
-        <script src="angular/service/CategoryService.js" type="text/javascript"></script>
-        <script src="angular/controller/CategoryController.js" type="text/javascript"></script>
+        <script src="angular/service/PromotionService.js" type="text/javascript"></script>
+        <script src="angular/controller/PromotionController.js" type="text/javascript"></script>
         
         
     </head>
-    <body ng-controller="categoryCtrl">
+    <body ng-controller="promotionCtrl">
         <div id="wrapper">
             <!-- Navigation and menu-->
             <?php
@@ -34,7 +34,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1 class="page-header">Danh mục sản phẩm</h1>
+                            <h1 class="page-header">Khuyến mại</h1>
                         </div>
                         <!-- /.col-lg-12 -->
                     </div>
@@ -50,23 +50,29 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Mã danh mục</th>
-                                    <th>Tên danh mục</th>
-                                    <th style="width: 40%">Ghi chú</th>
+                                    <th>Mã KM</th>
+                                    <th>Tên KM</th>
+                                    <th>Loại KM</th>
+                                    <th>TG bắt đầu</th>
+                                    <th>TG kết thúc</th>
+                                    <th style="width: 20%">Ghi chú</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="item in categories" ng-if="item.is_deleted != 1">
+                                <tr ng-repeat="item in promotions" ng-if="item.is_deleted != 1">
                                     <td>{{$index + 1}}</td>
                                     <td>DM00{{item.id}}</td>
                                     <td>{{item.name}}</td>
+                                    <td>{{item.type}}</td>
+                                    <td>{{item.start_time}}</td>
+                                    <td>{{item.end_time | date:"d/M/y"}}</td>
                                     <td>{{item.note}}</td>
                                     <td>
-                                        <button  ng-click="load_edit_category(item)"  class="btn btn-circle btn-warning"  data-toggle="modal" data-target="#myModalEdit" >
+                                        <button  ng-click="load_edit_promotion(item)"  class="btn btn-circle btn-warning"  data-toggle="modal" data-target="#myModalEdit" >
                                             <i class="fa fa-pencil"></i>
                                         </button>
-                                        <button ng-click="load_remove_category(item)" class="btn btn-circle btn-danger"  data-toggle="modal" data-target="#myModalRemove">
+                                        <button ng-click="load_remove_promotion(item)" class="btn btn-circle btn-danger"  data-toggle="modal" data-target="#myModalRemove">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -90,15 +96,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Thêm danh mục</h4>
+                        <h4 class="modal-title">Thêm khuyến mại</h4>
                     </div>
                     <div class="modal-body">
 
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Tên danh mục</label>
+                                <label class="control-label col-sm-3">Tên khuyến mại</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="Nhập tên danh mục" ng-model="current_add_model.name">
+                                    <input type="text" class="form-control" placeholder="Nhập tên khuyến mại" ng-model="current_add_model.name">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -111,7 +117,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="addCategory()">
+                        <button type="button" class="btn btn-success" ng-click="addPromotion()">
                             <i class="fa fa-check"></i>
                             Thêm
                         </button>
@@ -133,14 +139,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Sửa danh mục {{current_edit_model.name}}</h4>
+                        <h4 class="modal-title">Sửa khuyến mại {{current_edit_model.name}}</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Tên danh mục</label>
+                                <label class="control-label col-sm-3">Tên khuyến mại</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="Nhập tên danh mục" ng-model="current_edit_model.name">
+                                    <input type="text" class="form-control" placeholder="Nhập tên khuyến mại" ng-model="current_edit_model.name">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -152,7 +158,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="editCategory()" >Lưu</button>
+                        <button type="button" class="btn btn-success" ng-click="editPromotion()" >Lưu</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
                     </div>
                 </div>
@@ -171,10 +177,10 @@
                         <h4 class="modal-title">Xác nhận xóa</h4>
                     </div>
                     <div class="modal-body">
-                        <span>Bạn có muốn xóa danh mục </span><h4> {{current_remove_model.name}}</h4>
+                        <span>Bạn có muốn xóa khuyến mại </span><h4> {{current_remove_model.name}}</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeCategory()">Xóa</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removePromotion()">Xóa</button>
                     </div>
                 </div>
 

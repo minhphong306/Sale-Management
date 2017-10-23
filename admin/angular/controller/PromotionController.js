@@ -1,4 +1,4 @@
-app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams) {
+app.controller('promotionCtrl', function ($scope, promotionService, NgTableParams) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -34,70 +34,70 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
         $scope.reset_edit_model();
     };
 
-    $scope.load_edit_category = function (category) {
-        $scope.current_edit_model['id'] = category.id;
-        $scope.current_edit_model['name'] = category.name;
-        $scope.current_edit_model['note'] = category.note;
+    $scope.load_edit_promotion = function (promotion) {
+        $scope.current_edit_model['id'] = promotion.id;
+        $scope.current_edit_model['name'] = promotion.name;
+        $scope.current_edit_model['note'] = promotion.note;
     };
 
-    $scope.load_remove_category = function (category) {
-        $scope.current_remove_model['id'] = category.id;
-        $scope.current_remove_model['name'] = category.name;
+    $scope.load_remove_promotion = function (promotion) {
+        $scope.current_remove_model['id'] = promotion.id;
+        $scope.current_remove_model['name'] = promotion.name;
     };
     //</editor-fold>
 
-    $scope.categories = [];
+    $scope.promotions = [];
 
     //<editor-fold defaultstate="collapsed" desc="Service function: get, add, edit, remove">
-    $scope.getCategory = function () {
-        var request_data = getRequestObject('get_category');
+    $scope.getPromotion = function () {
+        var request_data = getRequestObject('get_promotion');
 
-        categoryService.categoryAction(request_data).then(function (response) {
-            $scope.categories = response.data.data;
+        promotionService.promotionAction(request_data).then(function (response) {
+            $scope.promotions = response.data.data;
         });
     };
 
-    $scope.addCategory = function () {
-        var request_data = getRequestObject('add_category');
+    $scope.addPromotion = function () {
+        var request_data = getRequestObject('add_promotion');
         request_data['name'] = $scope.current_add_model.name;
         request_data['note'] = $scope.current_add_model.note;
 
-        categoryService.categoryAction(request_data).then(function (response) {
-            show_notify('Thông báo', 'Thêm mới danh mục thành công', 'success');
+        promotionService.promotionAction(request_data).then(function (response) {
+            show_notify('Thông báo', 'Thêm mới khuyến mại thành công', 'success');
             $('#myModalAdd').modal('hide');
             $scope.reset_add_model()
-            $scope.getCategory();
+            $scope.getPromotion();
         });
     };
 
-    $scope.editCategory = function () {
-        var request_data = getRequestObject('edit_category');
+    $scope.editPromotion = function () {
+        var request_data = getRequestObject('edit_promotion');
         request_data['id'] = $scope.current_edit_model.id;
         request_data['name'] = $scope.current_edit_model.name;
         request_data['note'] = $scope.current_edit_model.note;
 
-        categoryService.categoryAction(request_data).then(function (response) {
-            show_notify('Thông báo', 'Sửa danh mục thành công', 'warning');
+        promotionService.promotionAction(request_data).then(function (response) {
+            show_notify('Thông báo', 'Sửa khuyến mại thành công', 'warning');
             $('#myModalEdit').modal('hide');
             $scope.reset_edit_model()
-            $scope.getCategory();
+            $scope.getPromotion();
         });
     };
 
-    $scope.removeCategory = function () {
-        var request_data = getRequestObject('remove_category');
+    $scope.removePromotion = function () {
+        var request_data = getRequestObject('remove_promotion');
         request_data['id'] = $scope.current_remove_model.id;
 
-        categoryService.categoryAction(request_data).then(function (response) {
-            show_notify('Thông báo', 'Xóa danh mục thành công', 'warning');
+        promotionService.promotionAction(request_data).then(function (response) {
+            show_notify('Thông báo', 'Xóa khuyến mại thành công', 'warning');
             $('#myModalRemove').modal('hide');
-            $scope.getCategory();
+            $scope.getPromotion();
         });
     };
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
-    $scope.getCategory();
+    $scope.getPromotion();
     $scope.init_model();
     //</editor-fold>
 

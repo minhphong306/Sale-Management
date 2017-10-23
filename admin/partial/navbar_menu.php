@@ -13,13 +13,13 @@
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i> (Minh Phong) <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i> Thông tin cá nhân</a>
                 </li>
                 <li class="divider"></li>
-                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
+                <li><a href="login.php"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -45,23 +45,34 @@
                     <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Trang chủ</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Sản phẩm<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-cubes fa-fw"></i>Sản phẩm<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="category.php">Danh mục</a>
+                            <a href="product.php">  Danh sách</a>
                         </li>
                         <li>
-                            <a href="product.php">Sản phẩm</a>
+                            <a href="product_add.php">  Thêm mới</a>
                         </li>
+                       
+                        
 
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="saleoff.php">Khuyến mại</a>
+                    <a href="category.php">  Danh mục</a>
                 </li>
                 <li>
-                    <a href="customer.php"><i class="fa fa-table fa-fw"></i> Khách hàng</a>
+                    <a href="gallery.php">  Thư viện</a>
+                </li>
+                <li>
+                    <a href="unit.php"></i>Đơn vị</a>
+                </li>
+                <li>
+                    <a href="promotion.php"><i class="fa fa-asterisk fa-fw"></i>Khuyến mại</a>
+                </li>
+                <li>
+                    <a href="customer.php"><i class="fa fa-users fa-fw"></i> Khách hàng</a>
                 </li> 
                 <li>
                     <a href="staff.php"><i class="fa fa-table fa-fw"></i> Nhân viên</a>

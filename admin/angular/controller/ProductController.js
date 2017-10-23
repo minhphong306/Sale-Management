@@ -1,4 +1,4 @@
-app.controller('productCtrl', function ($scope, productService, NgTableParams) {
+app.controller('productCtrl', function ($scope, productService, categoryService, unitService, NgTableParams) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -46,13 +46,33 @@ app.controller('productCtrl', function ($scope, productService, NgTableParams) {
     };
     //</editor-fold>
 
-    $scope.data = [];
+    $scope.products = [];
     $scope.display_mode = 'grid';
-    
-    //<editor-fold defaultstate="collapsed" desc="External function: changeDisplayMode">
-    $scope.change_display_mode = function(mode){
+    $scope.categories = [];
+    $scope.units = [];
+
+    $scope.selected_category = '';
+
+    //<editor-fold defaultstate="collapsed" desc="External function: changeDisplayMode, getCategory, getUnit">
+    $scope.change_display_mode = function (mode) {
         $scope.display_mode = mode
     }
+
+    $scope.getCategory = function () {
+        var request_data = getRequestObject('get_category');
+
+        categoryService.categoryAction(request_data).then(function (response) {
+            $scope.categories = response.data.data;
+        });
+    }
+
+    $scope.getUnit = function () {
+        var request_data = getRequestObject('get_unit');
+
+        unitService.unitAction(request_data).then(function (response) {
+            $scope.units = response.data.data;
+        });
+    };
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Service function: get, add, edit, remove">
@@ -60,7 +80,7 @@ app.controller('productCtrl', function ($scope, productService, NgTableParams) {
         var request_data = getRequestObject('get_product');
 
         productService.productAction(request_data).then(function (response) {
-            $scope.data = response.data.data;
+            $scope.products = response.data.data;
         });
     };
 
@@ -104,8 +124,145 @@ app.controller('productCtrl', function ($scope, productService, NgTableParams) {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
+    $scope.getUnit();
+    $scope.getCategory();
     $scope.getProduct();
     $scope.init_model();
     //</editor-fold>
 
 });
+
+app.controller('addProductCtrl', function ($scope, productService, categoryService, unitService, promotionService, galleryService, NgTableParams) {
+    //<editor-fold defaultstate="collapsed" desc="Until model & function">
+    function getRequestObject(mode) {
+        var object = {};
+        object['mode'] = mode;
+        return object;
+    }
+
+    function show_notify(title, text, type) {
+        (new PNotify({
+            title: title,
+            text: text,
+            type: type
+        }));
+    }
+
+    $scope.current_add_model = {};
+
+
+    $scope.init_model = function () {
+        // init add model
+        $scope.current_add_model.cat_id = '';
+        $scope.current_add_model.unit_id = '';
+        $scope.current_add_model.name = '';
+        $scope.current_add_model.promotion = {};
+        $scope.current_add_model.description = '';
+        $scope.current_add_model.promotion_value = '';
+        $scope.current_add_model.price = '';
+    };
+    //</editor-fold>
+
+    $scope.image_upload = {};
+    $scope.categories = [];
+    $scope.units = [];
+    $scope.promotions = [];
+    $scope.galleries = [];
+    $scope.selected_image = [];
+
+    $scope.selected_promotion = {};
+
+
+    $scope.promotion_value = '';
+
+    //<editor-fold defaultstate="collapsed" desc="External function: getCategory, getUnit, getPromotion, getGallery, readImageURL">
+
+    $scope.getCategory = function () {
+        var request_data = getRequestObject('get_category');
+
+        categoryService.categoryAction(request_data).then(function (response) {
+            $scope.categories = response.data.data;
+        });
+    };
+
+    $scope.getUnit = function () {
+        var request_data = getRequestObject('get_unit');
+
+        unitService.unitAction(request_data).then(function (response) {
+            $scope.units = response.data.data;
+        });
+    };
+
+    $scope.getActivePromotion = function () {
+        var request_data = getRequestObject('get_active_promotion');
+
+        promotionService.promotionAction(request_data).then(function (response) {
+            $scope.promotions = response.data.data;
+        });
+    };
+
+    $scope.loadGallery = function () {
+        galleryService.galleryAction('test').then(function (response) {
+            console.log(response.data);
+            $scope.galleries = response.data;
+        });
+    };
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Service function: add">
+    $scope.addProduct = function () {
+        var request_data = getRequestObject('add_product');
+        request_data['name'] = $scope.current_add_model.name;
+        request_data['note'] = $scope.current_add_model.note;
+
+        productService.productAction(request_data).then(function (response) {
+            show_notify('Thông báo', 'Thêm mới sản phẩm thành công', 'success');
+            $('#myModalAdd').modal('hide');
+            $scope.reset_add_model()
+            $scope.getproduct();
+        });
+    };
+
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
+    $scope.getUnit();
+    $scope.getCategory();
+    $scope.getActivePromotion();
+    $scope.init_model();
+    //</editor-fold>
+
+
+    $scope.promotionChange = function (promotion) {
+        debugger;
+        $scope.current_add_model.promotion = $scope.selected_promotion;
+        console.log($scope.current_add_model);
+    };
+
+    $scope.imageChange = function (item) {
+        $scope.selected_image = item;
+        var length = $scope.galleries.length;
+        for (var i = 0; i < length; i++) {
+            if (item == $scope.galleries[i]) {
+                $scope.galleries[i].status = true;
+            } else {
+                $scope.galleries[i].status = false;
+            }
+        }
+    }
+
+});
+
+function readURL(input) {
+    console.log(input.files);
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#img_thumbnail')
+                    .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}

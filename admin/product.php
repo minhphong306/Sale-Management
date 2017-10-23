@@ -20,6 +20,8 @@
         <link href="template/ng-table/ng-table.min.css" rel="stylesheet" type="text/css">
         <script src="angular/service/ProductService.js" type="text/javascript"></script>
         <script src="angular/service/CategoryService.js" type="text/javascript"></script>
+        <script src="angular/service/PromotionService.js" type="text/javascript"></script>
+        <script src="angular/service/UnitService.js" type="text/javascript"></script>
         <script src="angular/controller/ProductController.js" type="text/javascript"></script>
 
 
@@ -56,7 +58,7 @@
                         <br/>
                         <br/>
                         <div class="row" ng-if="display_mode == 'grid'">
-                            <div class="col-md-3" ng-repeat="item in data">
+                            <div class="col-md-3" ng-repeat="item in products">
                                 <div class = "thumbnail">
                                     <center>
                                         <div class = "thumbnail">
@@ -99,12 +101,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="item in data" ng-if="item.is_deleted != 1">
+                                    <tr ng-repeat="item in products" ng-if="item.is_deleted != 1">
                                         <td>{{$index + 1}}</td>
                                         <td>SP00{{item.id}}</td>
                                         <td>{{item.name}}</td>
                                         <td>{{item.category_name}}</td>
-                                        <td>{{item.price | currency:"":0}} ₫</td>
+                                        <td>{{item.price| currency:"":0}} ₫</td>
                                         <td>{{item.unit_name}}</td>
                                         <td>{{item.note}}</td>
                                         <td>
@@ -146,6 +148,30 @@
                                 <label class="control-label col-sm-3">Tên sản phẩm</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" ng-model="current_add_model.name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Danh mục</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="selected_category">
+                                        <option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Giá</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" ng-model="current_add_model.name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Đơn vị tính</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="selected_category">
+                                        <option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>
+
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
