@@ -1,6 +1,22 @@
 <?php
 require './service/DBUntil.php';
 require './service/FileUtil.php';
+?>
+<!--<script src="angular/lib/angular.min.js"></script>
+<script src="angular/lib/ng-table.min.js" type="text/javascript"></script>  
+<script src="angular/module/app.js" type="text/javascript"></script>
+<body ng-app="app">
+    <div ng-controller="myCtrl">
+        <div class="file-upload">
+            <input type="text" ng-model="name">
+            <input type="file" file-model="myFile"/>
+            <button ng-click="uploadFile()">upload me</button>
+        </div>
+    </div>
+
+</body>-->
+
+<?php
 
 //echo var_dump(getProductGallery());
 //$directory =  $_SERVER['DOCUMENT_ROOT'] . "/Sale_Manage/images/";   
@@ -75,7 +91,7 @@ require './service/FileUtil.php';
 //echo json_encode($arr);
 ?>
 
-
+<!--
 <!DOCTYPE html>
 <html>
     <body>
@@ -86,4 +102,4 @@ require './service/FileUtil.php';
         </form>
 
     </body>
-</html>
+</html>-->

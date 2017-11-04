@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['is_logined'])){
+        header("Location: login.php");
+    }
+?>
+
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -73,6 +80,9 @@
                 </li>
                 <li>
                     <a href="customer.php"><i class="fa fa-users fa-fw"></i> Khách hàng</a>
+                </li> 
+                <li>
+                    <a href="account.php"><i class="fa fa-users fa-fw"></i> Tài khoản</a>
                 </li> 
                 <li>
                     <a href="staff.php"><i class="fa fa-table fa-fw"></i> Nhân viên</a>

@@ -8,31 +8,27 @@ $result = [];
 if ($mode != '') {
     $result = [];
     switch ($mode) {
-        case 'get_product':
-            $data = getProduct();
+        case 'get_account':
+            $data = getAccount();
             $result['data'] = $data;
             $result['status'] = 'success';
             break;
-        case 'add_product':
-            $cat_id = $_REQUEST['cat_id'];
-            $unit_id = $_REQUEST['unit_id'];
+        case 'add_account':
             $name = $_REQUEST['name'];
-            $description = $_REQUEST['description'];
-            $price = $_REQUEST['price'];
-            $image = $_REQUEST['image'];
-            addProduct($cat_id, $unit_id, $name, $description, $price, $image);
+            $note = $_REQUEST['note'];
+            addAccount($name, $note);
             break;
 
-        case 'edit_product':
+        case 'edit_account':
             $id = $_REQUEST['id'];
             $name = $_REQUEST['name'];
             $note = $_REQUEST['note'];
-            editProduct($id, $name, $note);
+            editAccount($id, $name, $note);
             break;
 
-        case 'remove_product':
+        case 'remove_account':
             $id = $_REQUEST['id'];
-            removeProduct($id);
+            removeAccount($id);
             break;
         default:
             $result['status'] = 'not_found';

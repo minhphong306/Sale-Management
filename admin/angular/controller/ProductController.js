@@ -132,7 +132,7 @@ app.controller('productCtrl', function ($scope, productService, categoryService,
 
 });
 
-app.controller('addProductCtrl', function ($scope, productService, categoryService, unitService, promotionService, galleryService, NgTableParams) {
+app.controller('addProductCtrl', function ($scope, productService, categoryService, unitService, promotionService, galleryService, NgTableParams, fileUpload) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -168,9 +168,13 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
     $scope.units = [];
     $scope.promotions = [];
     $scope.galleries = [];
-    $scope.selected_image = [];
 
+    $scope.selected_image = {};
     $scope.selected_promotion = {};
+    $scope.selected_unit = {};
+    $scope.selected_category = {};
+
+    $scope.preview_image = 'default.jpg';
 
 
     $scope.promotion_value = '';
@@ -233,10 +237,49 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
     //</editor-fold>
 
 
+
+    $scope.addProduct = function () {
+
+        console.log($scope.current_add_model);
+        console.log($scope.selected_unit);
+        console.log($scope.selected_category);
+        // upload image
+        var file = $scope.myFile;
+        console.log(file);
+        if (file) {
+            fileUpload.uploadFileToUrl(file).then(function (response) {
+                console.info('UPLOAD RESPONSE', response);
+//                 addProduct($cat_id, $unit_id, $name, $description, $price, $image);
+                var request_data = getRequestObject('add_product');
+                
+                request_data['cat_id'] = $scope.selected_category.id;
+                request_data['unit_id'] = $scope.selected_unit.id;
+                request_data['name'] = $scope.current_add_model.name;
+                request_data['description'] = $scope.current_add_model.description;
+                request_data['price'] = $scope.current_add_model.price;
+                request_data['image'] = response.data.file_name;
+                productService.productAction(request_data).then(function (response) {
+                    show_notify('Thông báo', 'Thêm mới danh mục thành công', 'success');
+                    $('#myModalAdd').modal('hide');
+                    $scope.reset_add_model()
+                    $scope.getCategory();
+                });
+            });
+        } else {
+
+        }
+
+    };
+
     $scope.promotionChange = function (promotion) {
         debugger;
         $scope.current_add_model.promotion = $scope.selected_promotion;
         console.log($scope.current_add_model);
+    };
+
+    $scope.chooseImage = function (promotion) {
+        $scope.preview_image = $scope.selected_image == '' ? 'default.jpg' : $scope.selected_image;
+        $('#myModalGallery').modal('hide');
     };
 
     $scope.imageChange = function (item) {
@@ -245,6 +288,7 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
         for (var i = 0; i < length; i++) {
             if (item == $scope.galleries[i]) {
                 $scope.galleries[i].status = true;
+                $scope.selected_image = $scope.galleries[i].file_name;
             } else {
                 $scope.galleries[i].status = false;
             }

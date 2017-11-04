@@ -22,6 +22,7 @@
         <script src="angular/module/app.js" type="text/javascript"></script>
         <script src="template/ng-table/ng-table.min.js"></script>
         <link href="template/ng-table/ng-table.min.css" rel="stylesheet" type="text/css">
+        <script src="angular/service/UploadService.js" type="text/javascript"></script>
         <script src="angular/service/GalleryService.js" type="text/javascript"></script>
         <script src="angular/service/ProductService.js" type="text/javascript"></script>
         <script src="angular/service/CategoryService.js" type="text/javascript"></script>
@@ -66,7 +67,7 @@
                                             <i class="fa fa-picture-o"></i> Thư viện
                                         </button>
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                                            <span class="btn btn-primary btn-file"><span><i class="fa fa-photo"></i> Tải ảnh</span><input type="file" onchange="readURL(this)" fileread="image_upload"/></span>
+                                            <span class="btn btn-primary btn-file"><span><i class="fa fa-photo"></i> Tải ảnh</span><input type="file" onchange="readURL(this)" file-model="myFile"/></span>
                                             <span class="fileinput-filename"></span><span class="fileinput-new"></span>
                                         </div>
 
@@ -75,7 +76,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Danh mục</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="current_add_model.cat_id" ng-options="item.name for item in categories">
+                                        <select class="form-control" ng-model="selected_category" ng-options="item.name for item in categories">
                                             <!--<option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>-->
                                             <option value="">-- Chọn danh mục --</option>
                                         </select>
@@ -90,7 +91,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">Đơn vị tính</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="current_add_model.unit_id"  ng-options="item.name for item in units">
+                                        <select class="form-control" ng-model="selected_unit"  ng-options="item.name for item in units">
                                             <!--<option ng-repeat="item in units" value="{{item.id}}">{{item.name}}</option>-->
                                             <option value="">-- Chọn đơn vị --</option>
 
@@ -125,7 +126,7 @@
                             <div class = "thumbnail">
                                 <center>
                                     <div class = "thumbnail">
-                                        <img id="img_thumbnail"  style="width:200px; height: 200px" ng-src = "http://localhost:8081/Sale_Manage/images/quan-au.jpg" alt = "{{item.name}}">
+                                        <img id="img_thumbnail"  style="width:200px; height: 200px" ng-src = "http://localhost:8081/Sale_Manage/images/product/{{preview_image}}" alt = "{{item.name}}">
                                     </div>
                                 </center>
                                 <div class="pull-right">
@@ -179,7 +180,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="">
+                        <button type="button" class="btn btn-success" ng-click="chooseImage()">
                             <i class="fa fa-check"></i>
                             Chọn
                         </button>

@@ -22,7 +22,7 @@ if (file_exists($target_file)) {
     $status = false;
 }
 // Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
+if ($_FILES["fileToUpload"]["size"] > 1500000) {
     $message = "Sorry, your file is too large.";
     $status = false;
 }
@@ -33,7 +33,7 @@ if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpe
 }
 // Check if $uploadOk is set to 0 by an error
 if ($status == false) {
-    $message = "Sorry, your file was not uploaded.";
+    $message += ". Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -45,4 +45,6 @@ if ($status == false) {
 
 $result["status"] = $status;
 $result["message"] = $message;
+$result["file_name"] = basename($_FILES["fileToUpload"]["name"]);
+echo json_encode($result);
 ?>

@@ -62,7 +62,7 @@
                                 <div class = "thumbnail">
                                     <center>
                                         <div class = "thumbnail">
-                                            <img  style="width:200px; height: 200px" ng-src = "http://localhost:8081/Sale_Manage/images/{{item.image}}" alt = "{{item.name}}">
+                                            <img  style="width:200px; height: 200px" ng-src = "http://localhost:8081/Sale_Manage/images/product/{{item.image}}" alt = "{{item.name}}">
                                         </div>
                                     </center>
                                     <div class="pull-right">
