@@ -1,6 +1,7 @@
 <?php
 
 require './DBUntil.php';
+
 session_start();
 $account = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';

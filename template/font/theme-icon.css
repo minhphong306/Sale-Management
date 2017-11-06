@@ -1,0 +1,121 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?yy0xdo');
+	src:url('fonts/icomoon.eot?#iefixyy0xdo') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?yy0xdo') format('truetype'),
+		url('fonts/icomoon.woff?yy0xdo') format('woff'),
+		url('fonts/icomoon.svg?yy0xdo#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bean:before {
+	content: "\e600";
+}
+.icon-bechoi:before {
+	content: "\e601";
+}
+.icon-bedirangoai:before {
+	content: "\e602";
+}
+.icon-bekhoe:before {
+	content: "\e603";
+}
+.icon-bemac:before {
+	content: "\e604";
+}
+.icon-bengu:before {
+	content: "\e605";
+}
+.icon-betam:before {
+	content: "\e606";
+}
+.icon-bevesinh:before {
+	content: "\e607";
+}
+.icon-boy:before {
+	content: "\e608";
+}
+.icon-cart:before {
+	content: "\e609";
+}
+.icon-chongioitinh:before {
+	content: "\e60a";
+}
+.icon-chontuoi:before {
+	content: "\e60b";
+}
+.icon-chontuoi-banam:before {
+	content: "\e60c";
+}
+.icon-chontuoi-bathang:before {
+	content: "\e60d";
+}
+.icon-chontuoi-baynam:before {
+	content: "\e60e";
+}
+.icon-chontuoi-muoihaithang:before {
+	content: "\e60f";
+}
+.icon-chontuoi-muoinam:before {
+	content: "\e610";
+}
+.icon-chontuoi-saunam:before {
+	content: "\e611";
+}
+.icon-chontuoi-sauthang:before {
+	content: "\e612";
+}
+.icon-chontuoi-trenmuoinam:before {
+	content: "\e613";
+}
+.icon-danhchome:before {
+	content: "\e614";
+}
+.icon-danhmuc:before {
+	content: "\e615";
+}
+.icon-daxem:before {
+	content: "\e616";
+}
+.icon-doitrahang:before {
+	content: "\e617";
+}
+.icon-girl:before {
+	content: "\e618";
+}
+.icon-goiy:before {
+	content: "\e619";
+}
+.icon-hangchinhhang:before {
+	content: "\e61a";
+}
+.icon-new:before {
+	content: "\e61b";
+}
+.icon-nhannai:before {
+	content: "\e61c";
+}
+.icon-noithatchobe:before {
+	content: "\e61d";
+}
+.icon-vanchuyenhang:before {
+	content: "\e61e";
+}
+.icon-home3:before {
+	content: "\e61f";
+}

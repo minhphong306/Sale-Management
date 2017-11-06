@@ -28,7 +28,7 @@ app.controller('loginCtrl', function ($scope, loginService) {
         loginService.loginAction(obj).then(function(response){
             console.log(response.data.status);
             if(response.data.status == true){
-                alert('true');
+                alert('Login success');
                 window.location.href = 'index.php';
             } else {
                 alert('Login again');

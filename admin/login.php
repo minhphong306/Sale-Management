@@ -1,3 +1,13 @@
+<?php 
+session_start();
+
+if (isset($_SESSION['is_logined'])) {
+    header("Location: index.php");
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
