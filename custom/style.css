@@ -1,0 +1,29 @@
+.shop-navbar{
+    padding: 30px 0 30px 0;
+    background: white;
+}
+
+.shop-navbar .navbar-nav > .active > a{
+    background: #3489db;
+    color:white;
+}
+
+.shop-slider{
+    background-color: #E4E4E4;
+}
+
+.carousel-inner > .item > img {
+    margin: 0 auto;
+}
+
+.shop-container{
+    margin-top: 50px;
+}
+
+.shop-container .shop-img{
+    margin-bottom: 20px;
+}
+
+.shop-container .shop-cart-img{
+    margin-bottom: 5px;
+}

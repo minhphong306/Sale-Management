@@ -10,9 +10,9 @@
         <?php
         include './partial/header.php';
         ?>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.css" rel="stylesheet" type="text/css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.js" type="text/javascript"></script>
-
+        <link href="template/jasny-bootstrap/jasny-bootstrap.css" rel="stylesheet" type="text/css"/>
+        <script src="template/jasny-bootstrap/jasny-bootstrap.js" type="text/javascript"></script>
+        
         <link href="template/pnotify/pnotify.custom.min.css" rel="stylesheet" type="text/css"/>
         <script src="template/pnotify/pnotify.custom.min.js" type="text/javascript"></script>
 
