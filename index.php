@@ -19,6 +19,7 @@ and open the template in the editor.
         <script src="library/angular/angular.min.js" type="text/javascript"></script>
         <script src="angular/module/app.js" type="text/javascript"></script>
         <script src="library/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="admin/angular/service/SessionService.js" type="text/javascript"></script>
         <script src="admin/angular/service/CategoryService.js" type="text/javascript"></script>
         <script src="admin/angular/service/ProductService.js" type="text/javascript"></script>
         <script src="angular/controller/IndexController.js" type="text/javascript"></script>
@@ -101,12 +102,12 @@ and open the template in the editor.
                                                 </div>
                                             </center>
                                             <div class="pull-right">
-                                                <label class="label label-danger" style="font-size: 100%">SALE {{item.promotion_value}}%</label>
+                                                <label class="label label-danger" style="font-size: 100%">SALE {{item.promotion_value || 0}}%</label>
                                             </div>
                                             <div class = "caption text-center" >
                                                 <h3>{{item.name}}</h3>
-                                                <p>{{item.description}}</p>
-                                                <p class="text-danger"><b>{{item.price| currency:"":0}} ₫</b></p>
+                                                <p>{{item.description || 'Chưa có mô tả'}}</p>
+                                                <p class="text-danger"><b>{{item.price | currency:"":0}} ₫</b></p>
                                                 <p>
                                                     <button class="btn  btn-primary">
                                                         <i class="fa fa-eye"></i>
@@ -147,63 +148,63 @@ and open the template in the editor.
                 </div>
             </div>
             <!--Container-->
-        </div>
 
-        <!--Cart modal-->
-        <div class="modal fade" id="myModalAddCart" role="dialog" ng-controller="indexCtrl">
-            <div class="modal-dialog">
 
-                <!-- Modal add content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Thêm vào giỏ hàng</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="shop-table">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Sản phẩm</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Thành tiền</th>
-                                    </tr>
-                                </thead>
+            <!--Cart modal-->
+            <div class="modal fade" id="myModalAddCart" role="dialog" >
+                <div class="modal-dialog">
 
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td width="100">
-                                            <img class="img-responsive shop-cart-img" ng-src="images/product/default.jpg" height="60" />
-                                            <p class="text-center">{{prepare_item.name}}</p>
-                                        </td>
-                                        <td>{{item.price| currency:"":0}} ₫</td>
-                                        <td style="width: 10%"><input type="number" value="1" ng-model="product_quantity"/></td>
-                                        <td style="width: 20%">{{item.price * product_quantity| currency:"":0}} ₫</td>
+                    <!-- Modal add content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Thêm vào giỏ hàng</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="shop-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Đơn giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
 
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td width="100">
+                                                <img class="img-responsive shop-cart-img" ng-src="images/product/{{prepare_item.image}}" height="60" />
+                                                <p class="text-center">{{prepare_item.name}}</p>
+                                            </td>
+                                            <td>{{prepare_item.price| currency:"":0}} ₫</td>
+                                            <td style="width: 10%"><input type="number" value="1" ng-model="product_quantity"/></td>
+                                            <td style="width: 20%">{{prepare_item.price * product_quantity| currency:"":0}} ₫</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" ng-click="addToCart()">
+                                <i class="fa fa-check"></i>
+                                Thêm
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                <i class="fa fa-ban"></i>
+                                Hủy
+                            </button>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="addToCart()">
-                            <i class="fa fa-check"></i>
-                            Thêm
-                        </button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">
-                            <i class="fa fa-ban"></i>
-                            Hủy
-                        </button>
-                    </div>
+
                 </div>
-
             </div>
+            <!--End cart modal-->
         </div>
-        <!--End cart modal-->
-
         <?php
         require './partial/footer.php';
         ?>

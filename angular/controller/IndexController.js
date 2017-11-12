@@ -1,4 +1,4 @@
-app.controller('indexCtrl', function ($scope, categoryService, productService) {
+app.controller('indexCtrl', function ($scope, categoryService, sessionService, productService) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -14,25 +14,11 @@ app.controller('indexCtrl', function ($scope, categoryService, productService) {
         }));
     }
 
-
-    $scope.current_add_model = {};
-    $scope.current_edit_model = {};
-    $scope.current_remove_model = {};
-
-    $scope.reset_add_model = function () {
+    $scope.reset_prepare_model = function () {
         // init add model
-        $scope.current_add_model.name = '';
-        $scope.current_add_model.note = '';
+        $scope.prepare_item = {};
     };
-    $scope.reset_edit_model = function () {
-        // init edit model
-        $scope.current_edit_model.name = '';
-        $scope.current_edit_model.note = '';
-    };
-    $scope.init_model = function () {
-        $scope.reset_add_model();
-        $scope.reset_edit_model();
-    };
+    
 
     $scope.load_edit_index = function (index) {
         $scope.current_edit_model['id'] = index.id;
@@ -67,7 +53,25 @@ app.controller('indexCtrl', function ($scope, categoryService, productService) {
     
     $scope.preprareAddToCart = function(item){
         $scope.prepare_item = item;
-        debugger;
+    };
+    
+    $scope.addToCart = function(){
+        var request_obj = getRequestObject('add_product');
+        request_obj['id'] = $scope.prepare_item.id;
+        request_obj['name'] = $scope.prepare_item.name;
+        request_obj['description'] = $scope.prepare_item.description;
+        request_obj['price'] = $scope.prepare_item.price;
+        request_obj['image'] = $scope.prepare_item.image;
+        request_obj['promotion_name'] = $scope.prepare_item.promotion_name;
+        request_obj['promotion_type'] = $scope.prepare_item.promotion_type;
+        request_obj['promotion_value'] = $scope.prepare_item.promotion_value;
+        request_obj['quantity'] = $scope.product_quantity;
+        
+        sessionService.sessionClientAction(request_obj).then(function (response) {
+            $scope.reset_prepare_model();
+            
+        });
+        
     };
     
     //<editor-fold defaultstate="collapsed" desc="Init function">

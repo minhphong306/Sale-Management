@@ -47,7 +47,7 @@ app.controller('productCtrl', function ($scope, productService, categoryService,
     //</editor-fold>
 
     $scope.products = [];
-    $scope.display_mode = 'grid';
+    $scope.display_mode = 'table';
     $scope.categories = [];
     $scope.units = [];
 
@@ -270,7 +270,7 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
                 request_data['price'] = $scope.current_add_model.price;
                 request_data['image'] = response.data.file_name;
                 productService.productAction(request_data).then(function (response) {
-                    show_notify('Thông báo', 'Thêm mới danh mục thành công', 'success');
+                    show_notify('Thông báo', 'Thêm mới sản phẩm thành công', 'success');
                     $('#myModalAdd').modal('hide');
                     $scope.reset_add_model()
                     $scope.getCategory();

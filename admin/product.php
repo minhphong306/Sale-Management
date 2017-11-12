@@ -45,12 +45,7 @@
                     <!-- /.row -->
 
                     <div class="row">
-                        <div>
-                            <btn class="btn  btn-success"  data-toggle="modal" data-target="#myModalAdd">
-                                <i class="fa fa-plus"></i> Thêm mới
-                            </btn>
-                        </div>
-
+                        
                         <div class="pull-right">
                             <div class="btn btn-info" ng-click="change_display_mode('grid')"><i class="fa fa-th"></i></div>
                             <div class="btn btn-danger"  ng-click="change_display_mode('table')"><i class="fa fa-table"></i></div>
@@ -127,132 +122,7 @@
                 <!-- /.container-fluid -->
             </div>
             <!-- /#page-wrapper -->
-
         </div>
         <!-- /#wrapper -->
-
-        <!-- Modal add -->
-        <div class="modal fade" id="myModalAdd" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal add content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Thêm sản phẩm</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Tên sản phẩm</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" ng-model="current_add_model.name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Danh mục</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="selected_category">
-                                        <option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Giá</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" ng-model="current_add_model.name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Đơn vị tính</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="selected_category">
-                                        <option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Ghi chú:</label>
-                                <div class="col-sm-9">
-                                    <textarea class="form-control" rows="3" ng-model="current_add_model.note" ></textarea>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="addCategory()">
-                            <i class="fa fa-check"></i>
-                            Thêm
-                        </button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">
-                            <i class="fa fa-ban"></i>
-                            Hủy
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Modal edit -->
-        <div class="modal fade" id="myModalEdit" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal edit content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Sửa sản phẩm {{current_edit_model.name}}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Tên sản phẩm</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" ng-model="current_edit_model.name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-3">Ghi chú:</label>
-                                <div class="col-sm-9">
-                                    <textarea class="form-control" rows="3" ng-model="current_edit_model.note" ></textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="editCategory()" >Lưu</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Modal remove -->
-        <div class="modal fade" id="myModalRemove" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal remove content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Xác nhận xóa</h4>
-                    </div>
-                    <div class="modal-body">
-                        <span>Bạn có muốn xóa sản phẩm </span><h4> {{current_remove_model.name}}</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeCategory()">Xóa</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
     </body>
 </html>

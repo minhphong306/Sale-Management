@@ -1,5 +1,5 @@
 <!--Nav bar-->
-<nav class="shop-navbar navbar navbar-default" >
+<nav class="shop-navbar navbar navbar-default">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">

@@ -19,11 +19,13 @@ and open the template in the editor.
         <script src="library/angular/angular.min.js" type="text/javascript"></script>
         <script src="angular/module/app.js" type="text/javascript"></script>
         <script src="library/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="admin/angular/service/SessionService.js" type="text/javascript"></script>
         <script src="admin/angular/service/CategoryService.js" type="text/javascript"></script>
-        <script src="admin/angular/service/ProductService.js" type="text/javascript"></script>
-        <script src="angular/controller/NavController.js" type="text/javascript"></script>
+        <script src="admin/angular/service/ProductService.js" type="text/javascript"></script>   
+        <script src="angular/controller/CartController.js" type="text/javascript"></script>
+
     </head>
-    <body>
+    <body ng-app="app">
         <?php
         include './partial/navbar.php';
         ?>
@@ -31,7 +33,7 @@ and open the template in the editor.
         <h3 class="text-center">Giỏ hàng</h3>
 
         <!--Start cart-->
-        <div class="shop-container">
+        <div class="shop-container" ng-controller="cartCtrl">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -42,6 +44,7 @@ and open the template in the editor.
                                     <tr>
                                         <th>#</th>
                                         <th>Sản phẩm</th>
+                                        <th>Tên sản phẩm</th>
                                         <th>Đơn giá</th>
                                         <th>Số lượng</th>
                                         <th>Thành tiền</th>
@@ -50,16 +53,18 @@ and open the template in the editor.
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
+                                    <tr ng-repeat="item in products">
+                                        <td>{{$index}}</td>
                                         <td width="100">
-                                            <img class="img-responsive shop-cart-img" src="images/product/1.jpg" height="60" />
-                                            <p class="text-center">Quần đùi</p>
+                                            <img class="img-responsive shop-cart-img" ng-src="images/product/{{item.image}}" height="60" />
+                                           
                                         </td>
-                                        <td>100.000 đ</td>
-                                        <td style="width: 10%"><input type="number" value="5"/></td>
-                                        <td style="width: 20%">500.000 đ</td>
-                                        <td style="width: 10%"><button class="btn  btn-danger" >
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.price| currency:"":0}} ₫</td>
+                                        <td style="width: 10%"><input type="text" value="{{item.quantity}}"/></td>
+                                        <td style="width: 20%">{{item.price * item.quantity| currency:"":0}} ₫</td>
+                                        <td style="width: 10%">
+                                            <button class="btn  btn-danger" ng-click="removeCart(item)">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </td>
@@ -76,11 +81,11 @@ and open the template in the editor.
                                 <tbody>
                                     <tr>
                                         <th>Số lượng mặt hàng</th>
-                                        <td>10</td>
+                                        <td>{{products.length}}</td>
                                     </tr>
                                     <tr>
                                         <th>Tổng tiền</th>
-                                        <td>500.000 đ</td>
+                                        <td>{{ getCartTotal()}} ₫</td>
                                     </tr>
                                     <tr>
                                         <th>Giảm giá</th>

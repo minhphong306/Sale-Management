@@ -46,10 +46,20 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
     };
     //</editor-fold>
 
+    $scope.is_loading = true;
+
     $scope.category_type = -1;
     $scope.selected_parent = 0;
     $scope.categories = [];
     $scope.parent_categories = [];
+    
+    $scope.parentCategorySortType = '';
+    $scope.parentCategorySortReverse = '';
+    $scope.parentCategorySortSearchQuery = '';
+    
+    $scope.childCategorySortType = '';
+    $scope.childCategorySortReverse = '';
+    $scope.childCategorySortSearchQuery = '';
 
     //<editor-fold defaultstate="collapsed" desc="Service function: get, add, edit, remove">
     $scope.getCategory = function () {
@@ -65,6 +75,7 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
 
         categoryService.categoryAction(request_data).then(function (response) {
             $scope.parent_categories = response.data.data;
+            $scope.is_loading = false;
         });
     };
     
@@ -93,7 +104,6 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
             show_notify('Thông báo', 'Thêm mới danh mục thành công', 'success');
             $('#myModalAdd').modal('hide');
             $scope.reset_add_model();
-            $scope.getCategory();
             $scope.getParentCategory();
         });
     };
@@ -127,7 +137,6 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
-    $scope.getCategory();
     $scope.getParentCategory();
     $scope.init_model();
     //</editor-fold>

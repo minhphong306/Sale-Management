@@ -41,28 +41,55 @@
                     <!-- /.row -->
 
                     <div class="row">
-                        <div>
+                        <div style="margin: 20px">
                             <btn class="btn  btn-success"  data-toggle="modal" data-target="#myModalAdd">
                                 <i class="fa fa-plus"></i> Thêm mới
                             </btn>
                         </div>
-                        <div class="table-detail">
+                        
+                        <center ng-if="is_loading">
+                            <img src="../images/ajax-loader.gif"/>
+                        </center>
+                        
+                        <div class="table-detail" ng-if="!is_loading">
                             <!--Start parent category-->
                             <div class="col-md-6">
-                                <table class="table table-bordered table-responsive">
+                                <h3 class="text-center text-danger">Danh mục cha</h3>
+                                <div class="alert alert-info">
+                                    <p>Tiêu chí SX: {{ parentCategorySortType}}</p>
+                                    <p>Xếp theo   : {{ parentCategorySortReverse == true ? 'A -> Z' : 'Z -> A'}}</p>
+                                    <p>DL tìm kiếm: {{ parentCategorySortSearchQuery}}</p>
+                                </div>
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                            <input type="text" class="form-control" placeholder="Nhập dữ liệu cần tìm kiếm" ng-model="parentCategorySortSearchQuery">
+                                        </div>      
+                                    </div>
+                                </form>
+                                <table class="table table-bordered table-hover" style=" cursor: pointer; ">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Mã danh mục</th>
-                                            <th>Tên danh mục</th>
-                                            <th style="width: 40%">Ghi chú</th>
+                                            <th><a href="#">#</a></th>
+                                            <!--<th>Mã danh mục</th>-->
+                                            <th><a href="" ng-click="parentCategorySortType = 'name'; parentCategorySortReverse = !parentCategorySortReverse">
+                                                    Tên danh mục
+                                                    <span ng-show="parentCategorySortType == 'name' && !parentCategorySortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="parentCategorySortType == 'name' && parentCategorySortReverse" class="fa fa-caret-up"></span>
+                                                </a></th>
+                                            <th style="width: 40%"><a href="" ng-click="parentCategorySortType = 'note'; parentCategorySortReverse = !parentCategorySortReverse">
+                                                    Ghi chú
+                                                    <span ng-show="parentCategorySortType == 'note' && !parentCategorySortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="parentCategorySortType == 'note' && parentCategorySortReverse" class="fa fa-caret-up"></span>
+                                                </a></th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="item in parent_categories" ng-if="item.is_deleted != 1" ng-click="getChildCategory(item.id)">
+                                        <tr ng-repeat="item in parent_categories| orderBy:parentCategorySortType:parentCategorySortReverse | filter:parentCategorySortSearchQuery" ng-if="item.is_deleted != 1" ng-click="getChildCategory(item.id)">
                                             <td>{{$index + 1}}</td>
-                                            <td>{{item.id}}</td>
+                                            <!--<td>{{item.id}}</td>-->
                                             <td>{{item.name}}</td>
                                             <td>{{item.note}}</td>
                                             <td>
@@ -82,11 +109,18 @@
 
                             <!--Start child category-->
                             <div class="col-md-6">
-                                <table class="table table-bordered table-responsive">
+                                <h3 class="text-center text-danger">Danh mục con</h3>
+                                <h3 class="text-center text-danger">Danh mục cha</h3>
+                                <div class="alert alert-info">
+                                    <p>Tiêu chí SX: {{ parentCategorySortType}}</p>
+                                    <p>Xếp theo   : {{ parentCategorySortReverse == true ? 'A -> Z' : 'Z -> A'}}</p>
+                                    <p>DL tìm kiếm: {{ parentCategorySortSearchQuery}}</p>
+                                </div>
+                                <table class="table table-bordered table-hover table-responsive">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Mã danh mục</th>
+                                            <!--<th>Mã danh mục</th>-->
                                             <th>Tên danh mục</th>
                                             <th style="width: 40%">Ghi chú</th>
                                             <th>Hành động</th>
@@ -95,15 +129,15 @@
                                     <tbody>
                                         <tr ng-repeat="item in categories" ng-if="item.is_deleted != 1">
                                             <td>{{$index + 1}}</td>
-                                            <td>{{item.id}}</td>
+                                            <!--<td>{{item.id}}</td>-->
                                             <td>{{item.name}}</td>
                                             <td>{{item.note}}</td>
                                             <td>
                                                 <button  ng-click="load_edit_category(item)"  class="btn btn-circle btn-warning"  data-toggle="modal" data-target="#myModalEdit" >
-                                                    <i class="fa fa-pencil"></i>
+                                                    <i class="fa fa-pencil" data-toggle="tooltip" title="Sửa"></i>
                                                 </button>
                                                 <button ng-click="load_remove_category(item)" class="btn btn-circle btn-danger"  data-toggle="modal" data-target="#myModalRemove">
-                                                    <i class="fa fa-trash"></i>
+                                                    <i class="fa fa-trash" data-toggle="tooltip" title="Xóa"></i>
                                                 </button>
                                             </td>
                                         </tr>
