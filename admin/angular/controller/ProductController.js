@@ -164,7 +164,8 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
     //</editor-fold>
 
     $scope.image_upload = {};
-    $scope.categories = [];
+    $scope.parent_categories = [];
+    $scope.child_categories = [];
     $scope.units = [];
     $scope.promotions = [];
     $scope.galleries = [];
@@ -173,6 +174,7 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
     $scope.selected_promotion = {};
     $scope.selected_unit = {};
     $scope.selected_category = {};
+    $scope.selected_parent_category = {};
 
     $scope.preview_image = 'default.jpg';
 
@@ -182,10 +184,19 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
     //<editor-fold defaultstate="collapsed" desc="External function: getCategory, getUnit, getPromotion, getGallery, readImageURL">
 
     $scope.getCategory = function () {
-        var request_data = getRequestObject('get_category');
+        var request_data = getRequestObject('get_parent_category');
 
         categoryService.categoryAction(request_data).then(function (response) {
-            $scope.categories = response.data.data;
+            $scope.parent_categories = response.data.data;
+        });
+    };
+
+    $scope.getChildCategory = function () {
+        var request_data = getRequestObject('get_child_category');
+        request_data['parent_id'] = $scope.selected_parent_category.id;
+
+        categoryService.categoryAction(request_data).then(function (response) {
+            $scope.child_categories = response.data.data;
         });
     };
 
@@ -251,7 +262,7 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
                 console.info('UPLOAD RESPONSE', response);
 //                 addProduct($cat_id, $unit_id, $name, $description, $price, $image);
                 var request_data = getRequestObject('add_product');
-                
+
                 request_data['cat_id'] = $scope.selected_category.id;
                 request_data['unit_id'] = $scope.selected_unit.id;
                 request_data['name'] = $scope.current_add_model.name;
@@ -266,7 +277,20 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
                 });
             });
         } else {
+            var request_data = getRequestObject('add_product');
 
+            request_data['cat_id'] = $scope.selected_category.id;
+            request_data['unit_id'] = $scope.selected_unit.id;
+            request_data['name'] = $scope.current_add_model.name;
+            request_data['description'] = $scope.current_add_model.description;
+            request_data['price'] = $scope.current_add_model.price;
+            request_data['image'] = $scope.preview_image;
+            productService.productAction(request_data).then(function (response) {
+                show_notify('Thông báo', 'Thêm mới sản phẩm thành công', 'success');
+                $('#myModalAdd').modal('hide');
+                $scope.reset_add_model()
+                $scope.getCategory();
+            });
         }
 
     };

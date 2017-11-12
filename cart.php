@@ -14,6 +14,14 @@ and open the template in the editor.
         <link href="library/bootstrap3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="library/font-awaresome/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <link href="custom/style.css" rel="stylesheet" type="text/css"/>
+
+        <script src="library/jquery/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="library/angular/angular.min.js" type="text/javascript"></script>
+        <script src="angular/module/app.js" type="text/javascript"></script>
+        <script src="library/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="admin/angular/service/CategoryService.js" type="text/javascript"></script>
+        <script src="admin/angular/service/ProductService.js" type="text/javascript"></script>
+        <script src="angular/controller/NavController.js" type="text/javascript"></script>
     </head>
     <body>
         <?php
@@ -37,6 +45,7 @@ and open the template in the editor.
                                         <th>Đơn giá</th>
                                         <th>Số lượng</th>
                                         <th>Thành tiền</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
 
@@ -48,8 +57,12 @@ and open the template in the editor.
                                             <p class="text-center">Quần đùi</p>
                                         </td>
                                         <td>100.000 đ</td>
-                                        <td width="10"><input type="number" value="5"/></td>
-                                        <td>500.000 đ</td>
+                                        <td style="width: 10%"><input type="number" value="5"/></td>
+                                        <td style="width: 20%">500.000 đ</td>
+                                        <td style="width: 10%"><button class="btn  btn-danger" >
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

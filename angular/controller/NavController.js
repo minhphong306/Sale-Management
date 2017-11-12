@@ -1,4 +1,4 @@
-app.controller('indexCtrl', function ($scope, categoryService, productService) {
+app.controller('navCtrl', function ($scope, categoryService, productService) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -46,10 +46,8 @@ app.controller('indexCtrl', function ($scope, categoryService, productService) {
     };
     //</editor-fold>
 
-    $scope.prepare_item = {};
     $scope.parent_categories = [];
     $scope.products = [];
-    $scope.product_quantity = 1;
 
     $scope.get_category = function () {
         var request_obj = getRequestObject('get_parent_category');
@@ -64,12 +62,6 @@ app.controller('indexCtrl', function ($scope, categoryService, productService) {
             $scope.products = response.data.data;
         });
     };
-    
-    $scope.preprareAddToCart = function(item){
-        $scope.prepare_item = item;
-        debugger;
-    };
-    
     //<editor-fold defaultstate="collapsed" desc="Init function">
     $scope.get_category();
     $scope.get_product();

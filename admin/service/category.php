@@ -13,10 +13,22 @@ if ($mode != '') {
             $result['data'] = $data;
             $result['status'] = 'success';
             break;
+        case 'get_parent_category':
+            $data = getParentCategory();
+            $result['data'] = $data;
+            $result['status'] = 'success';
+            break;
+        case 'get_child_category':
+            $parent_id = $_POST['parent_id'];
+            $data = getChildCategory($parent_id);
+            $result['data'] = $data;
+            $result['status'] = 'success';
+            break;
         case 'add_category':
+            $parent_id = $_REQUEST['parent_id'];
             $name = $_REQUEST['name'];
             $note = $_REQUEST['note'];
-            addCategory($name, $note);
+            addCategory($name, $parent_id, $note);
             break;
 
         case 'edit_category':

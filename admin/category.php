@@ -19,8 +19,8 @@
         <link href="template/ng-table/ng-table.min.css" rel="stylesheet" type="text/css">
         <script src="angular/service/CategoryService.js" type="text/javascript"></script>
         <script src="angular/controller/CategoryController.js" type="text/javascript"></script>
-        
-        
+
+
     </head>
     <body ng-controller="categoryCtrl">
         <div id="wrapper">
@@ -46,33 +46,75 @@
                                 <i class="fa fa-plus"></i> Thêm mới
                             </btn>
                         </div>
-                        <table class="table table-bordered table-responsive">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Mã danh mục</th>
-                                    <th>Tên danh mục</th>
-                                    <th style="width: 40%">Ghi chú</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="item in categories" ng-if="item.is_deleted != 1">
-                                    <td>{{$index + 1}}</td>
-                                    <td>DM00{{item.id}}</td>
-                                    <td>{{item.name}}</td>
-                                    <td>{{item.note}}</td>
-                                    <td>
-                                        <button  ng-click="load_edit_category(item)"  class="btn btn-circle btn-warning"  data-toggle="modal" data-target="#myModalEdit" >
-                                            <i class="fa fa-pencil"></i>
-                                        </button>
-                                        <button ng-click="load_remove_category(item)" class="btn btn-circle btn-danger"  data-toggle="modal" data-target="#myModalRemove">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-detail">
+                            <!--Start parent category-->
+                            <div class="col-md-6">
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Mã danh mục</th>
+                                            <th>Tên danh mục</th>
+                                            <th style="width: 40%">Ghi chú</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in parent_categories" ng-if="item.is_deleted != 1" ng-click="getChildCategory(item.id)">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.note}}</td>
+                                            <td>
+                                                <button  ng-click="load_edit_category(item)"  class="btn btn-circle btn-warning"  data-toggle="modal" data-target="#myModalEdit" >
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                                <button ng-click="load_remove_category(item)" class="btn btn-circle btn-danger"  data-toggle="modal" data-target="#myModalRemove">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--End parent category-->
+
+                            <!--Start child category-->
+                            <div class="col-md-6">
+                                <table class="table table-bordered table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Mã danh mục</th>
+                                            <th>Tên danh mục</th>
+                                            <th style="width: 40%">Ghi chú</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in categories" ng-if="item.is_deleted != 1">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.note}}</td>
+                                            <td>
+                                                <button  ng-click="load_edit_category(item)"  class="btn btn-circle btn-warning"  data-toggle="modal" data-target="#myModalEdit" >
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                                <button ng-click="load_remove_category(item)" class="btn btn-circle btn-danger"  data-toggle="modal" data-target="#myModalRemove">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--End child category-->
+
+                        </div>
+
+
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -93,12 +135,27 @@
                         <h4 class="modal-title">Thêm danh mục</h4>
                     </div>
                     <div class="modal-body">
-
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Tên danh mục</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" placeholder="Nhập tên danh mục" ng-model="current_add_model.name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Loại danh mục</label>
+                                <div class="col-sm-9">
+                                    <label class="radio-inline"><input type="radio" ng-model="category_type" value="-1" checked>Danh mục cha</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="category_type" value="0">Danh mục con</label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="category_type == 0">
+                                <label class="control-label col-sm-3">Danh mục cha</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="selected_parent">
+                                        <option ng-repeat="item in parent_categories" value="{{item.id}}">{{item.name}}</option>
+
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">

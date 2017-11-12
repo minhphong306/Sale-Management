@@ -16,7 +16,22 @@ function getCategory() {
         return "error";
     }
 
-    $query = "SELECT id, name, note, is_deleted FROM category  where is_deleted = 0 order by name";
+    $query = "SELECT id, name, note, is_deleted FROM category where parent_id != -1 order by name";
+    $result = $conn->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    return $data;
+}
+
+function getParentCategory() {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $query = "SELECT `id`, `name`, `note`, `is_deleted` FROM `category` WHERE parent_id = -1";
     $result = $conn->query($query);
 
     while ($row = $result->fetch_assoc()) {
@@ -26,14 +41,30 @@ function getCategory() {
     return $data;
 }
 
-function addCategory($name, $note) {
+function getChildCategory($parent_id) {
     $conn = getConnection();
     if ($conn->connect_error) {
         return "error";
     }
 
-    $stmt = $conn->prepare("INSERT INTO category (name, note) VALUES (?, ?)");
-    $stmt->bind_param("ss", $name, $note);
+    $query = "SELECT `id`, `name`, `note`, `is_deleted` FROM `category` WHERE parent_id = $parent_id";
+    $result = $conn->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+
+    return $data;
+}
+
+function addCategory($name, $parent_id, $note) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("INSERT INTO category (name, parent_id, note) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $name, $parent_id, $note);
 
     $result = $stmt->execute();
     return $result;
@@ -453,19 +484,35 @@ function login($account, $password) {
         return "error";
     }
 
-    $query = "SELECT count(*) as total
-    from 
-	account 
-    where username = ? and password = ?";
+    $query = "SELECT 
+                a.id, s.id, s.name as staff_name,  a.username
+                     FROM
+                `account` a join staff s on a.staff_id = s.id
+                where is_deleted = 0 and username = ? and password = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ss", $account, $password);
 
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_array($result, MYSQLI_NUM);
-    if ($row[0] > 0) {
-        return true;
+    $stmt->execute();
+    $stmt->bind_result($account_id, $staff_id, $staff_name, $username);
+    while ($stmt->fetch()) {
+        $data['account_id'] = $account_id;
+        $data['staff_id'] = $staff_id;
+        $data['staff_name'] = $staff_name;
+        $data['username'] = $username;
     }
+
+
+    $count = $stmt->num_rows;
+
+    $return_result['count'] = $count;
+    if (!isset($data)) {
+        $data = null;
+    }
+    $return_result['data'] = $data;
+    return $return_result;
+//    if ($row[0] > 0) {
+//        return true;
+//    }
 
     return false;
 }

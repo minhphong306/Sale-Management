@@ -20,10 +20,12 @@
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i> (Minh Phong) <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i> <?php echo "{$_SESSION['staff_name']} ({$_SESSION['username']})";?> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i> Thông tin cá nhân</a>
+                </li>
+                <li><a href="/Sale_Manage/index.php"><i class="fa fa-user fa-fw"></i> Về trang bán hàng</a>
                 </li>
                 <li class="divider"></li>
                 <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
@@ -68,9 +70,6 @@
                 </li>
                 <li>
                     <a href="category.php">  Danh mục</a>
-                </li>
-                <li>
-                    <a href="gallery.php">  Thư viện</a>
                 </li>
                 <li>
                     <a href="unit.php"></i>Đơn vị</a>

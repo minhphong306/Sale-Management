@@ -46,7 +46,10 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
     };
     //</editor-fold>
 
+    $scope.category_type = -1;
+    $scope.selected_parent = 0;
     $scope.categories = [];
+    $scope.parent_categories = [];
 
     //<editor-fold defaultstate="collapsed" desc="Service function: get, add, edit, remove">
     $scope.getCategory = function () {
@@ -57,16 +60,41 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
         });
     };
 
+    $scope.getParentCategory = function () {
+        var request_data = getRequestObject('get_parent_category');
+
+        categoryService.categoryAction(request_data).then(function (response) {
+            $scope.parent_categories = response.data.data;
+        });
+    };
+    
+    $scope.getChildCategory = function (parent_id) {
+        var request_data = getRequestObject('get_child_category');
+        request_data['parent_id'] = parent_id;
+        
+        categoryService.categoryAction(request_data).then(function (response) {
+            $scope.categories = response.data.data;
+        });
+    };
+
     $scope.addCategory = function () {
         var request_data = getRequestObject('add_category');
         request_data['name'] = $scope.current_add_model.name;
         request_data['note'] = $scope.current_add_model.note;
+        debugger;
+        if ($scope.category_type == -1) {
+            request_data['parent_id'] = -1;
+        } else {
+            request_data['parent_id'] = $scope.selected_parent;
+        }
+
 
         categoryService.categoryAction(request_data).then(function (response) {
             show_notify('Thông báo', 'Thêm mới danh mục thành công', 'success');
             $('#myModalAdd').modal('hide');
-            $scope.reset_add_model()
+            $scope.reset_add_model();
             $scope.getCategory();
+            $scope.getParentCategory();
         });
     };
 
@@ -81,6 +109,7 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
             $('#myModalEdit').modal('hide');
             $scope.reset_edit_model()
             $scope.getCategory();
+            $scope.getParentCategory();
         });
     };
 
@@ -92,12 +121,14 @@ app.controller('categoryCtrl', function ($scope, categoryService, NgTableParams)
             show_notify('Thông báo', 'Xóa danh mục thành công', 'warning');
             $('#myModalRemove').modal('hide');
             $scope.getCategory();
+            $scope.getParentCategory();
         });
     };
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
     $scope.getCategory();
+    $scope.getParentCategory();
     $scope.init_model();
     //</editor-fold>
 

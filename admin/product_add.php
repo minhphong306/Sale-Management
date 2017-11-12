@@ -74,11 +74,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3">Danh mục</label>
+                                    <label class="control-label col-sm-3">Danh mục cha</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="selected_category" ng-options="item.name for item in categories">
-                                            <!--<option ng-repeat="item in categories" value="{{item.id}}">{{item.name}}</option>-->
-                                            <option value="">-- Chọn danh mục --</option>
+                                        <select class="form-control" ng-model="selected_parent_category" ng-options="item.name for item in parent_categories" ng-change="getChildCategory()">
+                                            <option value="">-- Chọn danh mục cha --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Danh mục con</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="selected_category" ng-options="item.name for item in child_categories">
+                                            <option value="">-- Chọn danh mục con --</option>
                                         </select>
                                     </div>
                                 </div>
@@ -146,7 +153,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="margin-bottom: 30px">
                         <button class="btn btn-primary col-md-offset-2" ng-click="addProduct()">
                             Thêm sản phẩm
                         </button>

@@ -1,6 +1,12 @@
 <?php
 require './service/DBUntil.php';
 require './service/FileUtil.php';
+session_start();
+$account = 'phongdm';
+$password = '123';
+$login_result = login($account, $password);
+$result['status'] = $login_result['count'] > 0 ? true : false;
+echo var_dump($_SESSION);
 ?>
 <!--<script src="angular/lib/angular.min.js"></script>
 <script src="angular/lib/ng-table.min.js" type="text/javascript"></script>  
