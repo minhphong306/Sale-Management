@@ -1,6 +1,7 @@
 <?php
 
 $data = $_REQUEST['data'];
+echo json_encode($data);
 foreach ($data as $product) {
     echo $product['name'];
 }

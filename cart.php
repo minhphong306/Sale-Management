@@ -57,7 +57,7 @@ and open the template in the editor.
                                         <td>{{$index}}</td>
                                         <td width="100">
                                             <img class="img-responsive shop-cart-img" ng-src="images/product/{{item.image}}" height="60" />
-                                           
+
                                         </td>
                                         <td>{{item.name}}</td>
                                         <td>{{item.price| currency:"":0}} ₫</td>
@@ -116,16 +116,16 @@ and open the template in the editor.
         <script src="library/jquery/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="library/bootstrap3/js/bootstrap.min.js" type="text/javascript"></script>
         <script>
-            $(document).ready(function () {
-                $("#export").click(function () {
-                    $("#tablerr").table2excel({
-                        // exclude CSS class
-                        exclude: ".noExl",
-                        name: "Worksheet Name",
-                        filename: "SomeFile" //do not include extension
-                    });
-                });
-            });
+                                            $(document).ready(function () {
+                                                $("#export").click(function () {
+                                                    $("#tablerr").table2excel({
+                                                        // exclude CSS class
+                                                        exclude: ".noExl",
+                                                        name: "Worksheet Name",
+                                                        filename: "SomeFile" //do not include extension
+                                                    });
+                                                });
+                                            });
         </script>
     </body>
 </html>

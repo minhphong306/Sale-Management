@@ -1,4 +1,4 @@
-app.controller('receiptCtrl', function ($scope, receiptService, productService) {
+app.controller('receiptCtrl', function ($scope, receiptService, productService, providerService) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -33,9 +33,9 @@ app.controller('receiptCtrl', function ($scope, receiptService, productService) 
         $scope.is_error = false;
         $scope.error_message = "";
     };
-    $scope.init_model = function () {
-        $scope.reset_add_model();
-        $scope.reset_edit_model();
+    $scope.reset_data = function () {
+        $scope.bill_note = '';
+         $scope.carts = [];
     };
 
     $scope.load_edit_receipt = function (receipt) {
@@ -63,6 +63,10 @@ app.controller('receiptCtrl', function ($scope, receiptService, productService) 
 
     $scope.receipts = [];
     $scope.products = [];
+    $scope.carts = [];
+    $scope.providers = [];
+    $scope.selected_provider = {};
+    $scope.bill_note = '';
 
     //<editor-fold defaultstate="collapsed" desc="Service function: get, add, edit, remove">
     $scope.getReceipt = function () {
@@ -134,21 +138,71 @@ app.controller('receiptCtrl', function ($scope, receiptService, productService) 
             $scope.products = response.data.data;
         });
     };
+    
+    $scope.getProvider = function () {
+        var request_data = getRequestObject('get_provider');
+
+        providerService.providerAction(request_data).then(function (response) {
+            $scope.providers = response.data.data;
+        });
+    };
+    
+    
     //</editor-fold>
 
 
     //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
     $scope.getProduct();
-    $scope.init_model();
+    $scope.getProvider();
+    $scope.reset_data();
     //</editor-fold>
 
 
-    $scope.test = function () {
-        var request_data = getRequestObject('get_receipt');
-        request_data['data'] = $scope.products;
+    $scope.addToCart = function (item) {
+        // Check if item already exist
+        for(var i = 0; i< $scope.carts.length; i++){
+            if($scope.carts[i].id == item.id){
+                $scope.carts[i].quantity++;
+                return;
+            }
+        }
+        
+        var obj = angular.copy(item);
+        obj['quantity'] = 1;
+        $scope.carts.push(obj);
+    };
 
-        receiptService.test(request_data).then(function (response) {
-            console.log(response);
+    $scope.removeFromCart = function (item) {
+        $scope.carts.splice($scope.carts.indexOf(item), 1);
+    };
+
+    $scope.getCartTotal = function (item) {
+        var length = $scope.carts.length;
+        var total = 0;
+        for (var i = 0; i < length; i++) {
+            total += $scope.carts[i].price_in * $scope.carts[i].quantity;
+        }
+        return total;
+    };
+
+    $scope.getCartQuantity = function (item) {
+        var length = $scope.carts.length;
+        var total = 0;
+        for (var i = 0; i < length; i++) {
+            total += $scope.carts[i].quantity;
+        }
+        return total;
+    };
+    
+    $scope.checkOut = function(){
+        var obj = getRequestObject('checkout_order_in');
+        obj['provider_id'] = $scope.selected_provider.id;
+        obj['note'] = $scope.bill_note;
+        obj['data'] = $scope.carts;
+        obj['total'] = $scope.getCartTotal();
+        receiptService.receiptAction(obj).then(function(response){
+            $scope.reset_data();
+            show_notify('Thông báo', 'Thanh toán hóa đơn thành công', 'success');
         });
     };
 });

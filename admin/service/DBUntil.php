@@ -115,7 +115,7 @@ function getProduct() {
             p.id, p.cat_id, c.name as cat_name,
             p.unit_id, u.name as unit_name,
             p.name, p.description,
-            p.price, pmd.promotion_value,
+            p.price_in, p.price_out, pmd.promotion_value,
             pm.type as promotion_type, pm.name as promotion_name,
             p.image, p.is_deleted
             FROM product p
@@ -527,3 +527,222 @@ function login($account, $password) {
 
 // </editor-fold>
 
+// <editor-fold defaultstate="collapsed" desc="provider">
+function getProvider() {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+    $query = "SELECT 
+                    id, 
+                    name, 
+                    phone, 
+                    email, 
+                    address, 
+                    note 
+                FROM provider 
+                WHERE is_deleted = 0";
+    
+    $result = $conn->query($query);
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    return $data;
+}
+
+function addProvider($name, $phone, $email, $address, $note) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("INSERT 
+                                INTO provider(name, phone, email, address, note) 
+                                VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $phone, $email, $address, $note);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+function editProvider($id, $name, $phone, $email, $address, $note) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("UPDATE provider 
+                                SET
+                                    name=?,
+                                    phone=?,
+                                    email=?,
+                                    address=?,
+                                    note=?
+                                WHERE id = ?");
+    $stmt->bind_param("ssssss", $name, $phone, $email, $address, $note, $id);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+function removeProvider($id) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("UPDATE `provider` 
+                            SET 
+                                `is_deleted`= true
+                            WHERE `id`= ?");
+    $stmt->bind_param("s", $id);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Order in">
+function getOrderIn() {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $query = "";
+    $result = $conn->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+
+    return $data;
+}
+
+function addOrderIn($staff_id, $provider_id, $total, $note) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("INSERT INTO 
+                            `order_in`
+                            (`staff_id`,`provider_id`, `total`, `note`) 
+                             VALUES
+                             (?, ?, ?, ?)");
+    $stmt->bind_param("ssds", $staff_id, $provider_id, $total,  $note);
+
+    $result['status'] = $stmt->execute();
+    $result['order_in_id'] = $stmt->insert_id;
+    return $result;
+}
+
+function editOrderIn($id, $cat_id, $unit_id, $name, $description, $price, $image) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("UPDATE `product` SET
+                            `cat_id`= ? ,`unit_id`=?,
+                            `name`=?,`description`=?,
+                            `price`= ?,`image`= ?
+                            WHERE `id`= ?");
+    $stmt->bind_param("sss", $cat_id, $unit_id, $name, $description, $price, $image, $id);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+function removeOrderIn($id) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("UPDATE `product` 
+                            SET 
+                                `is_deleted`= true
+                            WHERE `id`= ?");
+    $stmt->bind_param("s", $id);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="Order in Detail">
+function getOrderInDetail() {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $query = "";
+    $result = $conn->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+
+    return $data;
+}
+
+function addOrderInDetail($order_in_id, $product_id, $product_quantity, $product_price, $note) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("INSERT INTO
+                            `order_in_detail`
+                                (`order_in_id`, `product_id`, 
+                                 `quantity`, `price`, 
+                                 `note`) 
+                                VALUES 
+                                (?, ?,
+                                 ?, ?,
+                                 ?)");
+    
+    $stmt->bind_param("sssss", $order_in_id, $product_id, $product_quantity, $product_price, $note);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+function editOrderInDetail($id, $cat_id, $unit_id, $name, $description, $price, $image) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("UPDATE `product` SET
+                            `cat_id`= ? ,`unit_id`=?,
+                            `name`=?,`description`=?,
+                            `price`= ?,`image`= ?
+                            WHERE `id`= ?");
+    $stmt->bind_param("sss", $cat_id, $unit_id, $name, $description, $price, $image, $id);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+function removeOrderInDetail($id) {
+    $conn = getConnection();
+    if ($conn->connect_error) {
+        return "error";
+    }
+
+    $stmt = $conn->prepare("UPDATE `product` 
+                            SET 
+                                `is_deleted`= true
+                            WHERE `id`= ?");
+    $stmt->bind_param("s", $id);
+
+    $result = $stmt->execute();
+    return $result;
+}
+
+// </editor-fold>

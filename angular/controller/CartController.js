@@ -67,7 +67,7 @@ app.controller('cartCtrl', function ($scope, categoryService, sessionService, pr
         var length = $scope.products.length;
         var total = 0;
         for(var i =0 ; i < length; i++){
-            total += products[i].price * products[i].quantity;
+            total += products[i].price_out * products[i].quantity;
         }
         return total;
     };
