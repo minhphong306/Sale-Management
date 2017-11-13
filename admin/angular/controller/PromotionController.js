@@ -1,4 +1,4 @@
-app.controller('promotionCtrl', function ($scope, promotionService, NgTableParams) {
+app.controller('promotionCtrl', function ($scope, promotionService) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -100,5 +100,94 @@ app.controller('promotionCtrl', function ($scope, promotionService, NgTableParam
     $scope.getPromotion();
     $scope.init_model();
     //</editor-fold>
+
+});
+
+
+app.controller('addPromotionCtrl', function ($scope, promotionService, productService, categoryService) {
+    //<editor-fold defaultstate="collapsed" desc="Until model & function">
+    function getRequestObject(mode) {
+        var object = {};
+        object['mode'] = mode;
+        return object;
+    }
+
+    function show_notify(title, text, type) {
+        (new PNotify({
+            title: title,
+            text: text,
+            type: type
+        }));
+    }
+
+    $scope.current_add_model = {};
+
+
+    $scope.init_model = function () {
+        // init add model
+        $scope.current_add_model.cat_id = '';
+        $scope.current_add_model.unit_id = '';
+        $scope.current_add_model.name = '';
+        $scope.current_add_model.promotion = {};
+        $scope.current_add_model.description = '';
+        $scope.current_add_model.promotion_value = '';
+        $scope.current_add_model.price = '';
+
+    };
+    //</editor-fold>
+
+    $scope.products = [];
+    $scope.category_service = [];
+
+
+    //<editor-fold defaultstate="collapsed" desc="External function: getProduct">
+
+    $scope.getProduct = function () {
+        var request_data = getRequestObject('get_product');
+
+        productService.productAction(request_data).then(function (response) {
+            $scope.products = response.data.data;
+        });
+    };
+
+    $scope.getCategory = function () {
+        var request_data = getRequestObject('get_category');
+
+        categoryService.productAction(request_data).then(function (response) {
+            $scope.category_service = response.data.data;
+        });
+    };
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Service function: add">
+    $scope.addProduct = function () {
+        var request_data = getRequestObject('add_product');
+        request_data['name'] = $scope.current_add_model.name;
+        request_data['note'] = $scope.current_add_model.note;
+
+        productService.productAction(request_data).then(function (response) {
+            show_notify('Thông báo', 'Thêm mới sản phẩm thành công', 'success');
+            $('#myModalAdd').modal('hide');
+            $scope.reset_add_model()
+            $scope.getproduct();
+        });
+    };
+
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">
+    $scope.getProduct();
+    $scope.init_model();
+
+    $('#start_time').datetimepicker({
+        locale: 'vi'
+    });
+    $('#end_time').datetimepicker();
+    //</editor-fold>
+
+
+
+
+
 
 });

@@ -19,8 +19,8 @@
         <link href="template/ng-table/ng-table.min.css" rel="stylesheet" type="text/css">
         <script src="angular/service/UnitService.js" type="text/javascript"></script>
         <script src="angular/controller/UnitController.js" type="text/javascript"></script>
-        
-        
+
+
     </head>
     <body ng-controller="unitCtrl">
         <div id="wrapper">
@@ -41,25 +41,53 @@
                     <!-- /.row -->
 
                     <div class="row">
-                        <div>
-                            <btn class="btn  btn-success"  data-toggle="modal" data-target="#myModalAdd">
+                        <div style="margin: 20px">
+                            <btn class="btn  btn-success"  data-toggle="modal" data-target="#myModalAdd" ng-click="reset_add_model()">
                                 <i class="fa fa-plus"></i> Thêm mới
                             </btn>
                         </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-info">
+                                <p>Tiêu chí SX: {{ unitSortType}}</p>
+                                <p>Xếp theo   : {{ unitSortReverse == true ? 'A -> Z' : 'Z -> A'}}</p>
+                                <p>DL tìm kiếm: {{ unitSortSearchQuery}}</p>
+                            </div>
+                            <form>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                        <input type="text" class="form-control" placeholder="Nhập dữ liệu cần tìm kiếm" ng-model="unitSortSearchQuery">
+                                    </div>      
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-6" style="padding-top: 40px">
+
+                        </div>
+
                         <table class="table table-bordered table-responsive">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Mã đơn vị</th>
-                                    <th>Tên đơn vị</th>
-                                    <th style="width: 40%">Ghi chú</th>
+                                    <!--<th>Mã đơn vị</th>-->
+                                    <th ng-click="unitSortType = 'name'; unitSortReverse = !unitSortReverse">
+                                        <a href=""> Tên đơn vị </a>
+                                        <span ng-show="unitSortType == 'name' && !unitSortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="unitSortType == 'name' && unitSortReverse" class="fa fa-caret-up"></span>
+                                    </th>
+                                    <th style="width: 40%" ng-click="unitSortType = 'note'; unitSortReverse = !unitSortReverse">
+                                        <a href=""> Ghi chú </a>
+                                        <span ng-show="unitSortType == 'note' && !unitSortReverse" class="fa fa-sort-alpha-asc"></span>
+                                        <span ng-show="unitSortType == 'note' && unitSortReverse" class="fa fa-sort-alpha-desc"></span>
+                                    </th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="item in units" ng-if="item.is_deleted != 1">
+                                <tr ng-repeat="item in units | orderBy:unitSortType:unitSortReverse | filter:unitSortSearchQuery" ng-if="item.is_deleted != 1">
                                     <td>{{$index + 1}}</td>
-                                    <td>DV00{{item.id}}</td>
+                                    <!--<td>DV00{{item.id}}</td>-->
                                     <td>{{item.name}}</td>
                                     <td>{{item.note}}</td>
                                     <td>
@@ -93,7 +121,7 @@
                         <h4 class="modal-title">Thêm đơn vị</h4>
                     </div>
                     <div class="modal-body">
-
+                        <h3 ng-if="is_error" class="text-danger bg-danger text-center">{{error_message}}</h3>
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Tên đơn vị</label>
@@ -111,7 +139,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="addUnit()">
+                        <button type="button" class="btn btn-success" ng-click="addCustomer()">
                             <i class="fa fa-check"></i>
                             Thêm
                         </button>
@@ -136,6 +164,7 @@
                         <h4 class="modal-title">Sửa đơn vị {{current_edit_model.name}}</h4>
                     </div>
                     <div class="modal-body">
+                        <h3 ng-if="is_error" class="text-danger bg-danger text-center">{{error_message}}</h3>
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Tên đơn vị</label>
@@ -152,7 +181,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="editUnit()" >Lưu</button>
+                        <button type="button" class="btn btn-success" ng-click="editCustomer()" >Lưu</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
                     </div>
                 </div>
@@ -174,7 +203,7 @@
                         <span>Bạn có muốn xóa đơn vị </span><h4> {{current_remove_model.name}}</h4>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeUnit()">Xóa</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="removeCustomer()">Xóa</button>
                     </div>
                 </div>
 

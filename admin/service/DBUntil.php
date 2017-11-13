@@ -256,7 +256,13 @@ function getCustomer() {
         return "error";
     }
 
-    $query = "SELECT `id`, `name`, `phone`, `email`, `address`, `facebook`, `note` FROM `customer` order by name";
+    $query = "SELECT c.`id`, c.`name`, c.`phone`, c.`email`, c.password,  c.`address`, c.`facebook`, count(o.id) as total_order,  c.`note`, c.`is_deleted` 
+        FROM `customer` c left join order_out o
+	on o.customer_id = c.id 
+        GROUP BY
+                c.id
+        order by
+                name";
     $result = $conn->query($query);
 
     while ($row = $result->fetch_assoc()) {
@@ -266,7 +272,7 @@ function getCustomer() {
     return $data;
 }
 
-function addCustomer($name, $phone, $email, $address, $facebook, $note) {
+function addCustomer($name, $phone, $email, $password, $address, $facebook, $note) {
     $conn = getConnection();
     if ($conn->connect_error) {
         return "error";
@@ -274,17 +280,18 @@ function addCustomer($name, $phone, $email, $address, $facebook, $note) {
 
     $stmt = $conn->prepare("INSERT INTO `customer` 
                             (`name`, `phone`, `email`,
-                            `address`, `facebook`, `note`) 
+                            `address`, `facebook`, `note`, `password`) 
                              VALUES 
                              (?, ?, ?,
-                             ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $phone, $email, $address, $facebook, $note);
+                             ?, ?, ?,
+                             ?)");
+    $stmt->bind_param("sssssss", $name, $phone, $email, $address, $facebook, $note, $password);
 
     $result = $stmt->execute();
     return $result;
 }
 
-function editCustomer($id, $name, $phone, $email, $address, $facebook, $note) {
+function editCustomer($id, $name, $phone, $email, $password, $address, $facebook, $note) {
     $conn = getConnection();
     if ($conn->connect_error) {
         return "error";
@@ -294,9 +301,10 @@ function editCustomer($id, $name, $phone, $email, $address, $facebook, $note) {
                         SET 
                             `name`=?, `phone`= ?,
                             `email`=?, `address`=?,
-                            `facebook`= ?,`note`=?
+                            `facebook`= ?,`note`=?,
+                            `password` = ? 
                         WHERE `id` = ?");
-    $stmt->bind_param("sssssss", $name, $phone, $email, $address, $facebook, $note, $id);
+    $stmt->bind_param("ssssssss", $name, $phone, $email, $address, $facebook, $note, $password, $id);
 
     $result = $stmt->execute();
     return $result;
@@ -518,3 +526,4 @@ function login($account, $password) {
 }
 
 // </editor-fold>
+

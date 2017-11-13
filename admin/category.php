@@ -42,7 +42,7 @@
 
                     <div class="row">
                         <div style="margin: 20px">
-                            <btn class="btn  btn-success"  data-toggle="modal" data-target="#myModalAdd">
+                            <btn class="btn  btn-success"  data-toggle="modal" data-target="#myModalAdd" ng-click="reset_add_model()">
                                 <i class="fa fa-plus"></i> Thêm mới
                             </btn>
                         </div>
@@ -87,7 +87,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="item in parent_categories| orderBy:parentCategorySortType:parentCategorySortReverse | filter:parentCategorySortSearchQuery" ng-if="item.is_deleted != 1" ng-click="getChildCategory(item.id)">
+                                        <tr ng-repeat="item in parent_categories | orderBy:parentCategorySortType:parentCategorySortReverse | filter:parentCategorySortSearchQuery" ng-if="item.is_deleted != 1" ng-click="getChildCategory(item.id)">
                                             <td>{{$index + 1}}</td>
                                             <!--<td>{{item.id}}</td>-->
                                             <td>{{item.name}}</td>
@@ -110,24 +110,39 @@
                             <!--Start child category-->
                             <div class="col-md-6">
                                 <h3 class="text-center text-danger">Danh mục con</h3>
-                                <h3 class="text-center text-danger">Danh mục cha</h3>
                                 <div class="alert alert-info">
-                                    <p>Tiêu chí SX: {{ parentCategorySortType}}</p>
-                                    <p>Xếp theo   : {{ parentCategorySortReverse == true ? 'A -> Z' : 'Z -> A'}}</p>
-                                    <p>DL tìm kiếm: {{ parentCategorySortSearchQuery}}</p>
+                                    <p>Tiêu chí SX: {{ childCategorySortType}}</p>
+                                    <p>Xếp theo   : {{ childCategorySortReverse == true ? 'A -> Z' : 'Z -> A'}}</p>
+                                    <p>DL tìm kiếm: {{ childCategorySortSearchQuery}}</p>
                                 </div>
+                                <form>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                            <input type="text" class="form-control" placeholder="Nhập dữ liệu cần tìm kiếm" ng-model="childCategorySortSearchQuery">
+                                        </div>      
+                                    </div>
+                                </form>
                                 <table class="table table-bordered table-hover table-responsive">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th><a href="#">#</a></th>
                                             <!--<th>Mã danh mục</th>-->
-                                            <th>Tên danh mục</th>
-                                            <th style="width: 40%">Ghi chú</th>
+                                            <th><a href="" ng-click="childCategorySortType = 'name'; childCategorySortReverse = !childCategorySortReverse">
+                                                    Tên danh mục
+                                                    <span ng-show="childCategorySortType == 'name' && !childCategorySortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="childCategorySortType == 'name' && childCategorySortReverse" class="fa fa-caret-up"></span>
+                                                </a></th>
+                                            <th style="width: 40%"><a href="" ng-click="childCategorySortType = 'note'; childCategorySortReverse = !childCategorySortReverse">
+                                                    Ghi chú
+                                                    <span ng-show="childCategorySortType == 'note' && !childCategorySortReverse" class="fa fa-caret-down"></span>
+                                                    <span ng-show="childCategorySortType == 'note' && childCategorySortReverse" class="fa fa-caret-up"></span>
+                                                </a></th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="item in categories" ng-if="item.is_deleted != 1">
+                                        <tr ng-repeat="item in categories | orderBy:childCategorySortType:childCategorySortReverse | filter:childCategorySortSearchQuery" ng-if="item.is_deleted != 1">
                                             <td>{{$index + 1}}</td>
                                             <!--<td>{{item.id}}</td>-->
                                             <td>{{item.name}}</td>
@@ -169,6 +184,7 @@
                         <h4 class="modal-title">Thêm danh mục</h4>
                     </div>
                     <div class="modal-body">
+                        <h3 ng-if="is_error" class="text-danger bg-danger text-center">{{error_message}}</h3>
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Tên danh mục</label>
@@ -224,9 +240,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Sửa danh mục {{current_edit_model.name}}</h4>
+                        <h4 class="modal-title">Sửa danh mục</h4>
                     </div>
                     <div class="modal-body">
+                        <h3 ng-if="is_error" class="text-danger bg-danger text-center">{{error_message}}</h3>
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Tên danh mục</label>

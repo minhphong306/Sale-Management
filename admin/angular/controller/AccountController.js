@@ -1,4 +1,4 @@
-app.controller('accountCtrl', function ($scope, accountService, NgTableParams) {
+app.controller('accountCtrl', function ($scope, accountService) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};

@@ -1,4 +1,4 @@
-app.controller('productCtrl', function ($scope, productService, categoryService, unitService, NgTableParams) {
+app.controller('productCtrl', function ($scope, productService, categoryService, unitService) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -132,7 +132,7 @@ app.controller('productCtrl', function ($scope, productService, categoryService,
 
 });
 
-app.controller('addProductCtrl', function ($scope, productService, categoryService, unitService, promotionService, galleryService, NgTableParams, fileUpload) {
+app.controller('addProductCtrl', function ($scope, productService, categoryService, unitService, promotionService, galleryService, fileUpload) {
     //<editor-fold defaultstate="collapsed" desc="Until model & function">
     function getRequestObject(mode) {
         var object = {};
@@ -222,22 +222,6 @@ app.controller('addProductCtrl', function ($scope, productService, categoryServi
             $scope.galleries = response.data;
         });
     };
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Service function: add">
-    $scope.addProduct = function () {
-        var request_data = getRequestObject('add_product');
-        request_data['name'] = $scope.current_add_model.name;
-        request_data['note'] = $scope.current_add_model.note;
-
-        productService.productAction(request_data).then(function (response) {
-            show_notify('Thông báo', 'Thêm mới sản phẩm thành công', 'success');
-            $('#myModalAdd').modal('hide');
-            $scope.reset_add_model()
-            $scope.getproduct();
-        });
-    };
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Init: auto call function first time">

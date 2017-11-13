@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngTable']);
+var app = angular.module('app', []);
 
 app.directive("limitTo", [function () {
         return {
